@@ -1,0 +1,30 @@
+<p class="text-xl font-semibold mb-4">Products</p>
+
+@if (productStore.loading()) {
+  <div class="text-center text-gray-500">Loading...</div>
+} @else if (productStore.error()) {
+  <div class="text-red-600 font-semibold text-center">
+    {{ productStore.error() }}
+  </div>
+} @else if (productStore.products().length) {
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    @for (product of productStore.products(); track product.id) {
+      <div class="card bg-base-100 shadow-md border border-base-300">
+        <figure>
+          <img [src]="product.image" [alt]="product.name" />
+
+        </figure>
+        <div class="card-body p-4">
+          <h2 class="card-title text-lg">{{ product.name }}</h2>
+          <p class="text-sm text-gray-600">{{ product.description }}</p>
+          <div class="mt-4 flex justify-between items-center">
+            <span class="text-primary font-semibold">${{ product.price }}</span>
+            <button class="btn btn-primary btn-sm">Buy</button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="text-gray-400 text-center">No products found.</div>
+}
